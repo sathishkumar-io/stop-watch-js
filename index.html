@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+</head>
+<body>
+    <div id="root">
+        <span class="hour">00</span> : <span class="min">00</span> : <span class="sec">00</span> : <span class="millisec">00</span><br><br>
+        <button id="start-stop">START</button>
+        <button id="reset">RESET</button>
+    </div>
+    <script type="text/javascript">
+        /* define values to variables */
+        const h = document.querySelector('.hour');
+        const m = document.querySelector('.min');
+        const s = document.querySelector('.sec');
+        const ms = document.querySelector('.millisec');
+        const sBtn = document.getElementById('start-stop');
+        const rBtn = document.getElementById('reset');
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let milliseconds = 0;
+        let isStart = false;
+        let interval = null;
+
+        /* Check Start or Stop */
+        const startStop = () => {
+            !isStart ? start() : stop();
+        }
+        /* Start function */
+        const start = () => {
+            sBtn.innerText = "STOP";
+            isStart = true;
+            interval = setInterval(countDown, 10);
+        }
+        /* Stop function */
+        const stop = () => {
+            sBtn.innerText = "START";
+            clearInterval(interval);
+            interval = null;
+            isStart = false;
+        }
+        /* Countdown function */
+        const countDown = () => {
+            milliseconds++;
+            if (milliseconds === 100) {
+                milliseconds = 0;
+                seconds++;
+            }
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            /* Add zeros to front of defined hour, minutes, seconds and milliseconds */
+            function addZero(val) {
+                return val < 10 ? val = "0" + val : val;
+            }
+            let sw_hr = addZero(hours);
+            let sw_min = addZero(minutes);
+            let sw_sec = addZero(seconds);
+            let sw_ms = addZero(milliseconds);
+            h.innerText = sw_hr;
+            m.innerText = sw_min;
+            s.innerText = sw_sec;
+            ms.innerText = sw_ms;
+        }
+        /* Reset function and set default values */
+        const reset = () => {
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            milliseconds = 0;
+            stop();
+            zero = "0"+0;
+            h.innerText = zero;
+            m.innerText = zero;
+            s.innerText = zero;
+            ms.innerText = zero;
+        }
+        sBtn.addEventListener('click', startStop);
+        rBtn.addEventListener('click', reset);
+    </script>
+</body>
+</html>
